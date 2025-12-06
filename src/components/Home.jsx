@@ -1,7 +1,7 @@
 import React from "react";
 import { Component, useState } from "react";
 import styled from "styled-components";
-import Diceimage from "../assets/images/Diceimg.png";
+import Diceimage from "../assets/images/DiceImg.png";
 export default function Home({ entercomponent }) {
   return (
     <HOMESTYLE>
