@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import dice1 from "../assets/images/dice_1.png";
+import dice2 from "../assets/images/dice_2.png";
+import dice3 from "../assets/images/dice_3.png";
+import dice4 from "../assets/images/dice_4.png";
+import dice5 from "../assets/images/dice_5.png";
+import dice6 from "../assets/images/dice_6.png";
+
 export default function Dice({
   totalscore,
   selectednumber,
@@ -8,16 +15,23 @@ export default function Dice({
 }) {
   const [dicevalue, setdicevalue] = useState(1);
   const [showrules, setshowrules] = useState(false);
-  const Diceimage = new URL(
-    `../assets/images/dice_${dicevalue}.png`,
-    import.meta.url
-  ).href;
+  
+  // Map dice values to images
+  const diceImages = {
+    1: dice1,
+    2: dice2,
+    3: dice3,
+    4: dice4,
+    5: dice5,
+    6: dice6
+  };
+  
+  const Diceimage = diceImages[dicevalue];
+
   const data = () => {
-    // kal ya error ki funtionallity dalo ga baki phir next dekhtay
     if (selectednumber === 0) {
       console.log("done");
       seterror("you should select a number");
-
       return;
     }
 
@@ -36,9 +50,11 @@ export default function Dice({
   const reset = () => {
     settotalscore(0);
   };
+  
   const rulesfunction = () => {
     setshowrules((prev) => !prev);
   };
+
   return (
     <>
       <Dicejsx>
@@ -52,24 +68,24 @@ export default function Dice({
               Reset Score
             </button>
             <button className="secondbtn" onClick={rulesfunction}>
-              {showrules?"Hide":"Show"} Rules
+              {showrules ? "Hide" : "Show"} Rules
             </button>
           </div>
         </main>
       </Dicejsx>
-<Rulessection>
-      {showrules && (
-        <div className="rulessection">
-          <h3>How to play dice game</h3>
-          <p>Select any number</p>
-          <p>Click on dice image</p>
-          <p>
-            after click on dice if selected number is equal to dice number you
-            will get same point as dice
-          </p>
-          <p>if you get wrong guess then 2 point will be dedcuted</p>
-        </div>
-      )}
+      <Rulessection>
+        {showrules && (
+          <div className="rulessection">
+            <h3>How to play dice game</h3>
+            <p>Select any number</p>
+            <p>Click on dice image</p>
+            <p>
+              after click on dice if selected number is equal to dice number you
+              will get same point as dice
+            </p>
+            <p>if you get wrong guess then 2 point will be dedcuted</p>
+          </div>
+        )}
       </Rulessection>
     </>
   );
@@ -117,14 +133,13 @@ const Dicejsx = styled.div`
     margin-top: 10px;
     height: 200px;
   }
- 
 `;
-const Rulessection=styled.div`
- .rulessection {
+
+const Rulessection = styled.div`
+  .rulessection {
     max-height: 300px;
     line-height: 1;
     width: 40%;
     margin: 0 auto;
   }
-  
-`
+`;
