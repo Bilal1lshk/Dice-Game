@@ -1,6 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
-import Diceimage from "../assets/images/Diceimg.png";
+
 import Home from "./Home";
 import "../index.css";
 import Maingame from "./Maingame";
