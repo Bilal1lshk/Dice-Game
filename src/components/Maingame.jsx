@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import Totalnumber from "./Totalnumber";
 import Numberselect from "./numberselect";
-import styled from "styled-components";
 import Dice from "./Dice";
 
 export default function Maingame() {
   const [totalscore, settotalscore] = useState(0);
   const [selectedNumber, setSelectedNumber] = useState(0);
-    const [error,seterror]=useState(false)
+  const [error, seterror] = useState(false);
 
   return (
     <>
-      <Mainstyle>
-        <nav>
+      <div className="flex w-full pt-2.5 max-w-[1100px] space-x-28 h-auto mx-auto text-black">
+        <nav className="w-full md:mb-0   max-w-[1100px] h-25 grid md:grid-cols-2 z-30 grid-rows-2 px-5 box-border">
           <Totalnumber
             totalscore={totalscore}
             settotalscore={settotalscore}
@@ -25,8 +24,8 @@ export default function Maingame() {
             seterror={seterror}
           />
         </nav>
-        <br />
-      </Mainstyle>
+      </div>
+      <br />
       <Dice
         totalscore={totalscore}
         selectednumber={selectedNumber}
@@ -36,22 +35,3 @@ export default function Maingame() {
     </>
   );
 }
-const Mainstyle = styled.div`
-  display: flex;
-  width: 1100px;
-  height: auto;
-  margin: 0 auto;
-  color: black;
-
-  nav {
-    width: 1100px;
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    align-items: center; /* center items vertically */
-    justify-content: space-between; /* put Totalnumber at left and Numberselect at right */
-    padding: 0 20px;
-    box-sizing: border-box;
-  }
-`;

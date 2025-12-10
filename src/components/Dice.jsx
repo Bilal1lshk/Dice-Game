@@ -13,10 +13,6 @@ export default function Dice({
   settotalscore,
   seterror,
 }) {
-  const [dicevalue, setdicevalue] = useState(1);
-  const [showrules, setshowrules] = useState(false);
-  
-  // Map dice values to images
   const diceImages = {
     1: dice1,
     2: dice2,
@@ -25,121 +21,356 @@ export default function Dice({
     5: dice5,
     6: dice6
   };
-  
-  const Diceimage = diceImages[dicevalue];
+
+
+
+  const [dicevalue, setdicevalue] = useState(1);
+  const [showrules, setshowrules] = useState(false);
+  const [isRolling, setIsRolling] = useState(false);
 
   const data = () => {
     if (selectednumber === 0) {
-      console.log("done");
-      seterror("you should select a number");
+      seterror("You should select a number");
       return;
     }
 
     seterror("");
-    const randomnumber = Math.floor(Math.random() * 6) + 1;
-    console.log(randomnumber);
-    setdicevalue((prev) => randomnumber);
-    if (dicevalue !== selectednumber) {
-      settotalscore((prev) => prev - 2);
-    } else if (dicevalue === selectednumber) {
-      settotalscore((prev) => prev + randomnumber);
-    }
+    setIsRolling(true);
+
+    setTimeout(() => {
+      const randomnumber = Math.floor(Math.random() * 6) + 1;
+      setdicevalue(randomnumber);
+
+      if (selectednumber !== randomnumber) {
+        settotalscore((prev) => prev - 2);
+      } else {
+        settotalscore((prev) => prev + randomnumber);
+      }
+
+      setIsRolling(false);
+    }, 300);
   };
-  console.log(totalscore);
 
   const reset = () => {
     settotalscore(0);
+    setdicevalue(1);
   };
-  
+
   const rulesfunction = () => {
     setshowrules((prev) => !prev);
   };
+    const Diceimage = diceImages[dicevalue];
+
 
   return (
     <>
-      <Dicejsx>
-        <main>
-          <div className="imgconatiner">
-            <img src={Diceimage} alt="DiceImg" onClick={data} />
-          </div>
-          <div className="seconddiv">
-            <p className="second-div-para">Click on to Roll the Dice</p>
-            <button className="firstbtn" onClick={reset}>
-              Reset Score
-            </button>
-            <button className="secondbtn" onClick={rulesfunction}>
-              {showrules ? "Hide" : "Show"} Rules
-            </button>
-          </div>
-        </main>
-      </Dicejsx>
-      <Rulessection>
-        {showrules && (
-          <div className="rulessection">
-            <h3>How to play dice game</h3>
-            <p>Select any number</p>
-            <p>Click on dice image</p>
-            <p>
-              after click on dice if selected number is equal to dice number you
-              will get same point as dice
-            </p>
-            <p>if you get wrong guess then 2 point will be dedcuted</p>
-          </div>
-        )}
-      </Rulessection>
+      <div className="pt-20">
+        <Dicejsx>
+          <main>
+            <div className="imgcontainer">
+              <div
+                className={`dice ${isRolling ? 'rolling' : ''}`}
+                onClick={data}
+              >
+                <img src={Diceimage}alt="" />
+              </div>
+            </div>
+            <div className="seconddiv">
+              <p className="second-div-para">Click on Dice to Roll</p>
+              <button className="firstbtn" onClick={reset}>
+                Reset Score
+              </button>
+              <button className="secondbtn" onClick={rulesfunction}>
+                {showrules ? "Hide" : "Show"} Rules
+              </button>
+            </div>
+          </main>
+        </Dicejsx>
+        <Rulessection>
+          {showrules && (
+            <div className="rulessection">
+              <h3>How to Play Dice Game</h3>
+              <div className="rules-content">
+                <p>• Select any number from the top</p>
+                <p>• Click on the dice to roll</p>
+                <p>• If your selected number matches the dice, you earn points equal to the dice value</p>
+                <p>• If you guess wrong, 2 points will be deducted</p>
+              </div>
+            </div>
+          )}
+        </Rulessection>
+      </div>
     </>
   );
 }
 
 const Dicejsx = styled.div`
-  overflow: hidden;
-  max-height: 390px;
-  min-width: 90%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  .imgcontainer {
-    display: flex;
-    margin: 0 auto;
-  }
-  .seconddiv {
-    width: 200px;
-    margin-top: 0px;
+  padding: 40px 20px;
+  box-sizing: border-box;
+
+  main {
+    width: 100%;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    align-items: center;
+    gap: 30px;
   }
-  .firstbtn {
-    height: 34px;
-    font-weight: 540;
-    margin-bottom: 8px;
-    border-radius: 5px;
+
+  .imgcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dice {
+    width: 150px;
+    height: 150px;
+    background: white;
+    border: 3px solid #000;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    user-select: none;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &.rolling {
+      animation: roll 0.3s ease-in-out;
+    }
+  }
+
+  @keyframes roll {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    75% {
+      transform: rotate(270deg);
+    }
+  }
+
+  .seconddiv {
+    width: 100%;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .second-div-para {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    text-align: center;
+  }
+
+  .firstbtn,
+  .secondbtn {
+    width: 100%;
+    height: 44px;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 8px;
     border: 2px solid black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .firstbtn {
     color: black;
     background-color: white;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
   }
+
   .secondbtn {
-    height: 34px;
-    border-radius: 5px;
-    border: 2px solid black;
     color: white;
     background-color: black;
+
+    &:hover {
+      background-color: #333;
+    }
   }
-  .rulessection {
-    background-color: black;
-    margin-top: 10px;
-    height: 200px;
+
+  @media (max-width: 768px) {
+    padding: 30px 15px;
+
+    main {
+      gap: 25px;
+    }
+
+    .dice {
+      width: 130px;
+      height: 130px;
+      font-size: 70px;
+    }
+
+    .seconddiv {
+      max-width: 200px;
+    }
+
+    .second-div-para {
+      font-size: 15px;
+    }
+
+    .firstbtn,
+    .secondbtn {
+      height: 40px;
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 10px;
+
+    main {
+      gap: 20px;
+    }
+
+    .dice {
+      width: 110px;
+      height: 110px;
+      font-size: 60px;
+      border-radius: 12px;
+    }
+
+    .seconddiv {
+      max-width: 180px;
+      gap: 10px;
+    }
+
+    .second-div-para {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .firstbtn,
+    .secondbtn {
+      height: 38px;
+      font-size: 13px;
+    }
   }
 `;
 
 const Rulessection = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px 40px;
+  box-sizing: border-box;
+
   .rulessection {
-    max-height: 300px;
-    line-height: 1;
-    width: 40%;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffe6e6;
+    border-radius: 10px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h3 {
+    margin: 0 0 20px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .rules-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 15px 30px;
+
+    .rulessection {
+      padding: 20px 25px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .rules-content {
+      gap: 10px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 10px 20px;
+
+    .rulessection {
+      padding: 18px 20px;
+      border-radius: 8px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .rules-content {
+      gap: 8px;
+    }
+
+    p {
+      font-size: 13px;
+      line-height: 1.5;
+    }
   }
 `;
