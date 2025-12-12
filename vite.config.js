@@ -1,19 +1,18 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from "@tailwindcss/vite"
-// https://vite.dev/config/
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [
     react({
       babel: {
-        plugins: [['babel-plugin-react-compiler']],
+        plugins: [["babel-plugin-react-compiler"]],
       },
     }),
     tailwindcss(),
   ],
   server: {
     watch: {
-      usePolling: true, // 👈 this enables hot reload in OneDrive / Windows folders
+      usePolling: true,
     },
   },
-})
+});

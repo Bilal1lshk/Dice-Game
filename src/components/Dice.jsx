@@ -8,7 +8,6 @@ import dice5 from "../assets/images/dice_5.png";
 import dice6 from "../assets/images/dice_6.png";
 
 export default function Dice({
-  totalscore,
   selectednumber,
   settotalscore,
   seterror,
@@ -29,6 +28,7 @@ export default function Dice({
   const [isRolling, setIsRolling] = useState(false);
 
   const data = () => {
+    console.log("not working")
     if (selectednumber === 0) {
       seterror("You should select a number");
       return;
@@ -59,20 +59,20 @@ export default function Dice({
   const rulesfunction = () => {
     setshowrules((prev) => !prev);
   };
-    const Diceimage = diceImages[dicevalue];
+  const Diceimage = diceImages[dicevalue];
 
 
   return (
     <>
-      <div className="pt-20">
+      <div className="pt-34 md:pt-20 md:min-h-screen h-screen w-screen ">
         <Dicejsx>
           <main>
-            <div className="imgcontainer">
+            <div onClick={data}
+              className="imgcontainer">
               <div
                 className={`dice ${isRolling ? 'rolling' : ''}`}
-                onClick={data}
               >
-                <img src={Diceimage}alt="" />
+                <img src={Diceimage} alt="" />
               </div>
             </div>
             <div className="seconddiv">

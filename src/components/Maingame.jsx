@@ -10,8 +10,8 @@ export default function Maingame() {
 
   return (
     <>
-      <div className="flex w-full pt-2.5 max-w-[1100px] space-x-28 h-auto mx-auto text-black">
-        <nav className="w-full md:mb-0   max-w-[1100px] h-25 grid md:grid-cols-2 z-30 grid-rows-2 px-5 box-border">
+      <div className="flex flex-col gap-2 w-full pt-2.5 max-w-[1100px] space-x-28 h-auto mx-auto text-black">
+        <nav className="w-full md:mb-0  mt-1  max-w-[1100px] h-25 grid md:grid-cols-2 z-30 grid-rows-2 px-5 box-border">
           <Totalnumber
             totalscore={totalscore}
             settotalscore={settotalscore}
@@ -26,12 +26,15 @@ export default function Maingame() {
         </nav>
       </div>
       <br />
+      <div className="">
       <Dice
         totalscore={totalscore}
         selectednumber={selectedNumber}
         settotalscore={settotalscore}
         seterror={seterror}
       />
+              </div>
+
     </>
   );
 }
